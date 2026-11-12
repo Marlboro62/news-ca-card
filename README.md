@@ -138,6 +138,10 @@ Uniquement via les [issues GitHub](https://github.com/Marlboro62/news-ca-card/is
 
 ## Historique des versions
 
+### 0.1.0b2
+
+- 🐛 **Titres en double** : quand un média publie deux fois le même titre (par exemple France 24 : la version « 🔴 » en direct sans résumé, puis l'article), une seule entrée est gardée, celle qui a un résumé et une image.
+
 ### 0.1.0b1
 
 - Première bêta : 10 médias canadiens (Québec et anglophones), flux RSS ou Atom ajoutés à la main, carte à articles déroulants, Alerte AMBER (flux En Alerte, capteur, fenêtre sur toutes les vues, bandeau).
