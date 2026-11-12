@@ -72,10 +72,9 @@ L'intégration surveille **en permanence** le flux public du système national d
 | TVA Nouvelles | français | Actualités |
 | Le Journal de Montréal | français | Actualités |
 | CBC News | anglais | Top stories |
-| CTV News | anglais | Top stories |
 | Global News | anglais | Actualités |
 | The Globe and Mail | anglais | Canada |
-| National Post | anglais | Actualités |
+| National Post | anglais | News |
 
 Radio-Canada, La Presse, CBC News et Global News sont cochés par défaut. Vous pouvez aussi **ajouter n'importe quel flux RSS ou Atom** (un média régional, un blog) dans les options : une ligne par flux, de la forme `Nom | https://adresse-du-flux`.
 
@@ -137,6 +136,13 @@ Uniquement via les [issues GitHub](https://github.com/Marlboro62/news-ca-card/is
 - [Actualités France](https://github.com/Marlboro62/news-fr-card) : la même carte pour les médias français, avec l'Alerte Enlèvement.
 
 ## Historique des versions
+
+### 0.1.0b3
+
+- 🐛 **TVA Nouvelles** : son flux mal formé (« & » non échappé, entités HTML) est réparé avant lecture.
+- 🐛 **National Post** : nouvelle adresse de flux.
+- ➖ **CTV News retiré** : son ancien flux n'existe plus (404) et aucun nouveau flux public n'a été trouvé ; son capteur est supprimé automatiquement.
+- Message plus clair quand un site renvoie une page web au lieu du flux.
 
 ### 0.1.0b2
 
