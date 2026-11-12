@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Final
 
 DOMAIN: Final = "news_ca"
-VERSION: Final = "0.1.0b3"
+VERSION: Final = "0.1.0b4"
 NAME: Final = "Actualités Canada"
 
 CONF_SOURCES: Final = "sources"
@@ -35,7 +35,6 @@ SOURCES: Final[dict[str, dict[str, str]]] = {
         "url": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/canada/",
         "site": "https://www.theglobeandmail.com",
     },
-    "nationalpost": {"name": "National Post", "url": "https://nationalpost.com/category/news/feed.xml", "site": "https://nationalpost.com"},
 }
 
 # Alerte AMBER : flux public En Alerte / NAAD (Pelmorex), deux serveurs (Québec, Toronto)

@@ -74,7 +74,6 @@ L'intégration surveille **en permanence** le flux public du système national d
 | CBC News | anglais | Top stories |
 | Global News | anglais | Actualités |
 | The Globe and Mail | anglais | Canada |
-| National Post | anglais | News |
 
 Radio-Canada, La Presse, CBC News et Global News sont cochés par défaut. Vous pouvez aussi **ajouter n'importe quel flux RSS ou Atom** (un média régional, un blog) dans les options : une ligne par flux, de la forme `Nom | https://adresse-du-flux`.
 
@@ -136,6 +135,10 @@ Uniquement via les [issues GitHub](https://github.com/Marlboro62/news-ca-card/is
 - [Actualités France](https://github.com/Marlboro62/news-fr-card) : la même carte pour les médias français, avec l'Alerte Enlèvement.
 
 ## Historique des versions
+
+### 0.1.0b4
+
+- ➖ **National Post retiré** : ni l'ancienne ni la nouvelle adresse de son flux ne répondent (page web, puis 404) ; son capteur est supprimé automatiquement.
 
 ### 0.1.0b3
 
