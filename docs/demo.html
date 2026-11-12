@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Actualités Canada — démo</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #0d1624; color: #e7edf5; font-family: Inter, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 560px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  p { color: #8fa0b8; margin: 0 0 18px; font-size: .9rem; line-height: 1.5; }
+  ha-card { display: block; }
+  .ctl { margin-top: 18px; padding: 14px 16px; border-radius: 16px; background: #1a2434; border: 1px solid #2f3d55; }
+  .ctl h2 { font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: #8fa0b8; margin: 0 0 10px; }
+  .ctl .row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .ctl .row:last-child { margin-bottom: 0; }
+  .ctl button { font: inherit; font-size: .84rem; padding: 7px 14px; border-radius: 999px; border: 1px solid #2f3d55; background: #212d40; color: #e7edf5; cursor: pointer; }
+  .ctl button.on { background: #1d93e3; border-color: #1d93e3; color: #fff; }
+  .ctl button.alert.on { background: #b3261e; border-color: #e5484d; }
+  .ctl small { display: block; color: #8fa0b8; font-size: .78rem; line-height: 1.45; margin-top: 4px; }
+  body.light { background: #e8edf4; color: #1a2434; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Actualités Canada <small style="font-size:.7rem;color:#8fa0b8">démo</small></h1>
+  <p>Titres et résumés <b>fictifs</b>, sans lien avec les médias cités : dans Home Assistant, la carte lit les capteurs de l'intégration. Cliquez sur un titre pour le dérouler.</p>
+  <div id="card"></div>
+  <section class="ctl" aria-label="Réglages de la démo">
+    <h2>Couleurs de la carte</h2>
+    <div class="row" id="themes">
+      <button data-theme="v2" class="on">Bleu nuit</button>
+      <button data-theme="light">Clair</button>
+    </div>
+    <h2>Alerte AMBER</h2>
+    <div class="row">
+      <button id="kid" class="alert">Simuler une alerte (exemple fictif)</button>
+    </div>
+    <small>Dans Home Assistant, la fenêtre d'alerte s'ouvre sur toutes les vues et tous les appareils dès qu'une Alerte AMBER est émise dans le système national En Alerte. Ici, elle apparaît en quelques secondes ; l'alerte, la photo et le texte sont fictifs.</small>
+  </section>
+</main>
+<script>
+  // éléments de Home Assistant simulés : ha-card et ha-icon
+  customElements.define("ha-card", class extends HTMLElement {});
+  customElements.define("ha-icon", class extends HTMLElement {});
+</script>
+<script src="../custom_components/news_ca/frontend/news-ca-card.js"></script>
+<script>
+  const now = Date.now(), min = 60000;
+  const art = (id, title, mins, summary, img) => ({ id, title, url: "https://example.org/" + id, summary, image: img || null,
+    published: new Date(now - mins * min).toISOString(), author: null });
+  // images de la démo : publiées avec la page (GitHub Pages)
+  const pic = (n) => "https://marlboro62.github.io/news-ca-card/docs/img/" + n + ".svg";
+  const src = (name, key, arts, error) => ({ entity_id: "sensor.actualites_canada_" + key, state: String(arts.length), last_updated: new Date(now).toISOString(),
+    attributes: { friendly_name: "Actualités Canada " + name, site: "https://example.org", updated: new Date(now - 4 * min).toISOString(), error: error || null, articles: arts } });
+  const states = {};
+  for (const s of [
+    src("Radio-Canada", "radio_canada", [
+      art("r1", "Tempête hivernale : jusqu'à 30 cm de neige attendus dans le sud du Québec", 9, "Environnement Canada a émis un avertissement de neige pour plusieurs régions. Les déplacements pourraient être difficiles dès ce soir.", pic("monde")),
+      art("r2", "Santé : Québec annonce l'ouverture de nouvelles cliniques sans rendez-vous", 120, "Le ministère prévoit une dizaine de nouveaux points de service d'ici le printemps.")]),
+    src("La Presse", "la_presse", [art("p1", "Montréal : le prolongement de la ligne bleue franchit une nouvelle étape", 40, "Les travaux du tunnel avancent selon l'échéancier, selon la Société de transport.", pic("budget"))]),
+    src("CBC News", "cbc_news", [
+      art("c1", "Federal budget: what the new measures mean for households", 18, "The plan includes changes to housing support and child care funding, with details to come next week.", pic("monde")),
+      art("c2", "Northern lights could be visible across Canada tonight", 75, "Forecasters say clear skies in several provinces should give a good view of the aurora.")]),
+    src("Global News", "global_news", [art("g1", "Ontario hydro rates to change on Nov. 1: what you need to know", 55, "", pic("budget"))]),
+  ]) states[s.entity_id] = s;
+  const entities = Object.fromEntries(Object.keys(states).map((id) => [id, { platform: "news_ca" }]));
+  // « home-assistant » simulé : la fenêtre d'alerte lit l'état de Home Assistant sur cet élément
+  const ha = document.createElement("home-assistant");
+  document.body.appendChild(ha);
+  const card = document.createElement("news-ca-card");
+  const config = { type: "custom:news-ca-card", theme: "v2" };
+  const KID = "binary_sensor.actualites_canada_alerte_amber";
+  entities[KID] = { platform: "news_ca" };
+  states[KID] = { entity_id: KID, state: "off", attributes: {} };
+  let dark = true;
+  const push = () => {
+    const hass = { states: { ...states }, entities, themes: { darkMode: dark } };
+    ha.hass = hass;
+    card.hass = hass;
+  };
+  card.setConfig(config);
+  push();
+  document.getElementById("card").appendChild(card);
+  window.card = card;
+
+  document.getElementById("themes").addEventListener("click", (ev) => {
+    const b = ev.target.closest("button"); if (!b) return;
+    document.querySelectorAll("#themes button").forEach((x) => x.classList.toggle("on", x === b));
+    dark = b.dataset.theme !== "light";
+    document.body.classList.toggle("light", !dark);
+    card.setConfig({ ...config, theme: dark ? "v2" : "auto" });
+    push();
+  });
+  const kid = document.getElementById("kid");
+  kid.addEventListener("click", () => {
+    const on = states[KID].state !== "on";
+    kid.classList.toggle("on", on);
+    kid.textContent = on ? "Terminer l'alerte simulée" : "Simuler une alerte (exemple fictif)";
+    states[KID] = { entity_id: KID, state: on ? "on" : "off", last_changed: new Date().toISOString(), attributes: on ? {
+      alert_id: "demo-" + Date.now(), since: new Date(now - 35 * min).toISOString(),
+      title: "EXEMPLE FICTIF — Alerte AMBER : enfant de 7 ans",
+      summary: "Exemple fictif : dans une vraie Alerte AMBER, la description de l'enfant, du suspect et du véhicule diffusée par le corps de police apparaît ici.",
+      area: "Région fictive", expires: new Date(now + 5 * 60 * min).toISOString(), image: pic("silhouette"), url: null,
+      source: "Corps de police (fictif)", sources: ["Corps de police (fictif)"] } : {} };
+    push();
+  });
+</script>
+</body>
+</html>
