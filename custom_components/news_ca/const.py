@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Final
 
 DOMAIN: Final = "news_ca"
-VERSION: Final = "0.1.0b2"
+VERSION: Final = "0.1.0b3"
 NAME: Final = "Actualités Canada"
 
 CONF_SOURCES: Final = "sources"
@@ -29,14 +29,13 @@ SOURCES: Final[dict[str, dict[str, str]]] = {
     "journaldemontreal": {"name": "Le Journal de Montréal", "url": "https://www.journaldemontreal.com/rss.xml", "site": "https://www.journaldemontreal.com"},
     # Médias anglophones
     "cbc": {"name": "CBC News", "url": "https://www.cbc.ca/webfeed/rss/rss-topstories", "site": "https://www.cbc.ca/news"},
-    "ctv": {"name": "CTV News", "url": "https://www.ctvnews.ca/rss/ctvnews-ca-top-stories-public-rss-1.822009", "site": "https://www.ctvnews.ca"},
     "globalnews": {"name": "Global News", "url": "https://globalnews.ca/feed/", "site": "https://globalnews.ca"},
     "globeandmail": {
         "name": "The Globe and Mail",
         "url": "https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/canada/",
         "site": "https://www.theglobeandmail.com",
     },
-    "nationalpost": {"name": "National Post", "url": "https://nationalpost.com/feed/", "site": "https://nationalpost.com"},
+    "nationalpost": {"name": "National Post", "url": "https://nationalpost.com/category/news/feed.xml", "site": "https://nationalpost.com"},
 }
 
 # Alerte AMBER : flux public En Alerte / NAAD (Pelmorex), deux serveurs (Québec, Toronto)
