@@ -136,24 +136,14 @@ Uniquement via les [issues GitHub](https://github.com/Marlboro62/news-ca-card/is
 
 ## Historique des versions
 
-### 0.1.0b4
+### 0.1.0
 
-- ➖ **National Post retiré** : ni l'ancienne ni la nouvelle adresse de son flux ne répondent (page web, puis 404) ; son capteur est supprimé automatiquement.
+Première version stable (regroupe les bêtas 0.1.0b1 à b4) :
 
-### 0.1.0b3
-
-- 🐛 **TVA Nouvelles** : son flux mal formé (« & » non échappé, entités HTML) est réparé avant lecture.
-- 🐛 **National Post** : nouvelle adresse de flux.
-- ➖ **CTV News retiré** : son ancien flux n'existe plus (404) et aucun nouveau flux public n'a été trouvé ; son capteur est supprimé automatiquement.
-- Message plus clair quand un site renvoie une page web au lieu du flux.
-
-### 0.1.0b2
-
-- 🐛 **Titres en double** : quand un média publie deux fois le même titre (par exemple France 24 : la version « 🔴 » en direct sans résumé, puis l'article), une seule entrée est gardée, celle qui a un résumé et une image.
-
-### 0.1.0b1
-
-- Première bêta : 10 médias canadiens (Québec et anglophones), flux RSS ou Atom ajoutés à la main, carte à articles déroulants, Alerte AMBER (flux En Alerte, capteur, fenêtre sur toutes les vues, bandeau).
+- 📰 **8 médias proposés** : Radio-Canada, La Presse, CBC News, Global News (cochés par défaut), Le Devoir, TVA Nouvelles, Le Journal de Montréal, The Globe and Mail ; et vos propres flux RSS ou Atom.
+- 🗂️ **Carte** chargée automatiquement : onglets par média, **À la une**, articles déroulants (image, résumé, lien vers l'article), **Voir plus**.
+- 🚨 **Alerte AMBER** : flux public du système national En Alerte lu toutes les 5 minutes, capteur `binary_sensor`, fenêtre bilingue sur toutes les vues de Home Assistant, non désactivable ; bandeau rouge dans la carte.
+- 🛠️ Titres en double fusionnés, flux mal formés réparés avant lecture (TVA Nouvelles), dates sans fuseau à l'heure de l'Est. CTV News et National Post retirés : leurs flux n'existent plus.
 
 ## Licence
 
