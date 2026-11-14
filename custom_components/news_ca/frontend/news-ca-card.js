@@ -8,7 +8,7 @@
  * © 2026 Marlboro62.
  */
 (() => {
-const CARD_VERSION = "0.1.0";
+const CARD_VERSION = "0.1.1b1";
 
 const DEFAULTS = {
   title: "Actualités",
@@ -16,6 +16,7 @@ const DEFAULTS = {
   max_items: 10,
   show_all: true,
   show_images: true,
+  hide_words: "",
   theme: "v2",
 };
 
@@ -23,6 +24,10 @@ const DEFAULTS = {
 const COLORS = ["#1d93e3", "#e5484d", "#f0a33a", "#96d21f", "#a77bf3", "#25c2a0", "#ff7eb6", "#8fa0b8", "#ffd23f", "#4cc3ff", "#ff8c42", "#c0e862"];
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+/** Texte sans accents ni majuscules, pour comparer les mots à masquer. */
+const fold = (t) => String(t ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+/** Mots à masquer : séparés par des virgules ou des retours à la ligne (« Horoscope, Loterie »). */
+const hideList = (v) => (Array.isArray(v) ? v : String(v || "").split(/[,\n]/)).map((w) => fold(w).trim()).filter(Boolean);
 const safeUrl = (u) => (typeof u === "string" && /^https?:\/\/[^\s"'<>]+$/.test(u) ? u : "");
 const store = {
   get(k, d) { try { const v = JSON.parse(window.localStorage.getItem(k)); return v ?? d; } catch (e) { return d; } },
@@ -146,6 +151,7 @@ class NewsCaCard extends HTMLElement {
           { name: "show_all", selector: { boolean: {} } },
           { name: "show_images", selector: { boolean: {} } },
         ] },
+        { name: "hide_words", selector: { text: {} } },
         { name: "theme", selector: { select: { mode: "dropdown", options: [
           { value: "v2", label: "Bleu nuit (style des cartes MyElectricalData)" },
           { value: "auto", label: "Bleu nuit, clair si Home Assistant est en mode clair" },
@@ -157,6 +163,7 @@ class NewsCaCard extends HTMLElement {
         max_items: "Nombre de titres affichés (« Voir plus » pour la suite)",
         show_all: "Onglet « À la une » (tous les médias mélangés, du plus récent au plus ancien)",
         show_images: "Image de l'article quand on le déroule",
+        hide_words: "Masquer les titres contenant (mots séparés par des virgules, ex. : Horoscope, Loterie)",
         theme: "Couleurs de la carte",
       }[s.name]),
     };
@@ -248,9 +255,12 @@ class NewsCaCard extends HTMLElement {
     if (!this._tab) this._tab = store.get("news-ca:tab", tabs[0].key);
     if (!tabs.some((t) => t.key === this._tab)) this._tab = tabs[0].key;
 
-    const pool = this._tab === "all"
+    // titres masqués : ceux qui contiennent un des mots choisis (sans tenir compte des accents ni des majuscules)
+    const hide = hideList(c.hide_words);
+    const keep = (a) => !hide.length || !hide.some((w) => fold(a.title).includes(w));
+    const pool = (this._tab === "all"
       ? sources.flatMap((s) => s.articles.map((a) => ({ ...a, src: s })))
-      : sources.filter((s) => s.id === this._tab).flatMap((s) => s.articles.map((a) => ({ ...a, src: s })));
+      : sources.filter((s) => s.id === this._tab).flatMap((s) => s.articles.map((a) => ({ ...a, src: s })))).filter(keep);
     // articles sans date : après les articles datés, dans l'ordre du flux
     const when = (a) => Date.parse(a.published || "") || 0;
     pool.forEach((a, i) => { a._i = i; });
