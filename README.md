@@ -113,7 +113,7 @@ type: custom:news-ca-card
 | Option | Rôle | Défaut |
 | --- | --- | --- |
 | `title` | Titre de la carte | `Actualités` |
-| `entities` | Médias affichés, dans cet ordre (vide : tous les médias de l'intégration) | tous |
+| `entities` | Médias affichés, dans cet ordre (vide : tous les médias de l'intégration). Dans l'éditeur visuel, la liste « Médias et ordre des onglets » les range avec ↑ / ↓ et les masque d'une case | tous |
 | `hide_words` | Masquer les titres contenant ces mots, séparés par des virgules (sans tenir compte des accents ni des majuscules), par exemple `Horoscope, Loterie` | aucun |
 | `max_items` | Nombre de titres affichés ; **Voir plus** affiche la suite | `10` |
 | `show_all` | Onglet **À la une** (tous les médias mélangés) | `true` |
@@ -136,6 +136,10 @@ Uniquement via les [issues GitHub](https://github.com/Marlboro62/news-ca-card/is
 - [Actualités France](https://github.com/Marlboro62/news-fr-card) : la même carte pour les médias français, avec l'Alerte Enlèvement.
 
 ## Historique des versions
+
+### 0.1.1b2 (pré-version)
+
+- ✨ **Ordre des médias** : dans l'éditeur de la carte, la liste « Médias et ordre des onglets » déplace chaque média avec ↑ / ↓ et le masque d'une case. Chaque média garde sa couleur quand l'ordre change.
 
 ### 0.1.1b1 (pré-version)
 
