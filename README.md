@@ -137,12 +137,9 @@ Uniquement via les [issues GitHub](https://github.com/Marlboro62/news-ca-card/is
 
 ## Historique des versions
 
-### 0.1.1b2 (pré-version)
+### 0.1.1
 
 - ✨ **Ordre des médias** : dans l'éditeur de la carte, la liste « Médias et ordre des onglets » déplace chaque média avec ↑ / ↓ et le masque d'une case. Chaque média garde sa couleur quand l'ordre change.
-
-### 0.1.1b1 (pré-version)
-
 - ✨ **Masquer des titres** : option `hide_words` (aussi dans l'éditeur) pour cacher les titres qui contiennent certains mots, par exemple des rubriques qui ne vous intéressent pas.
 
 ### 0.1.0
