@@ -114,6 +114,7 @@ type: custom:news-ca-card
 | --- | --- | --- |
 | `title` | Titre de la carte | `Actualités` |
 | `entities` | Médias affichés, dans cet ordre (vide : tous les médias de l'intégration) | tous |
+| `hide_words` | Masquer les titres contenant ces mots, séparés par des virgules (sans tenir compte des accents ni des majuscules), par exemple `Horoscope, Loterie` | aucun |
 | `max_items` | Nombre de titres affichés ; **Voir plus** affiche la suite | `10` |
 | `show_all` | Onglet **À la une** (tous les médias mélangés) | `true` |
 | `show_images` | Image de l'article quand on le déroule | `true` |
@@ -135,6 +136,10 @@ Uniquement via les [issues GitHub](https://github.com/Marlboro62/news-ca-card/is
 - [Actualités France](https://github.com/Marlboro62/news-fr-card) : la même carte pour les médias français, avec l'Alerte Enlèvement.
 
 ## Historique des versions
+
+### 0.1.1b1 (pré-version)
+
+- ✨ **Masquer des titres** : option `hide_words` (aussi dans l'éditeur) pour cacher les titres qui contiennent certains mots, par exemple des rubriques qui ne vous intéressent pas.
 
 ### 0.1.0
 
